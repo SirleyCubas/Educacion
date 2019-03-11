@@ -32,8 +32,18 @@ namespace Education.WebAdmin.Controllers
         [HttpPost]
         public ActionResult Crear(Categoria alumno)
         {
-            _categoriasBL.GuardarCategoria(alumno);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                if(alumno.Descripcion != alumno.Descripcion.Trim())
+                {
+                    ModelState.AddModelError("Descripcion", "La descripcion no debe contener espacios al inicio o al final");
+                    return View(alumno);
+                }
+                _categoriasBL.GuardarCategoria(alumno);
+                return RedirectToAction("Index");
+            }
+            return View(alumno);
+            
         }
 
         public ActionResult Editar(int id)
@@ -46,9 +56,17 @@ namespace Education.WebAdmin.Controllers
         [HttpPost]
         public ActionResult Editar(Categoria alumno)
         {
-            _categoriasBL.GuardarCategoria(alumno);
-
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                if (alumno.Descripcion != alumno.Descripcion.Trim())
+                {
+                    ModelState.AddModelError("Descripcion", "La descripcion no debe contener espacios al inicio o al final");
+                    return View(alumno);
+                }
+                _categoriasBL.GuardarCategoria(alumno);
+                return RedirectToAction("Index");
+            }
+            return View(alumno);
         }
 
         public ActionResult Detalle(int id)

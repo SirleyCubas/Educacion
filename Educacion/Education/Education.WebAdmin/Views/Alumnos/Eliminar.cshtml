@@ -19,7 +19,7 @@
             @Html.DisplayFor(model => model.NombreAlumno)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Categoria.Descripcion)
+            @Html.DisplayNameFor(model => model.Categoria)
         </dt>
 
         <dd>
@@ -33,6 +33,19 @@
             @Html.DisplayFor(model => model.RTN)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.UrlImagen)
+        </dt>
+
+        <dd>
+            <img src="@Model.UrlImagen" alt="@Model.NombreAlumno" style="width:200px; height:auto;" />
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Activo)
+        </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.Activo)
+        </dt>
     </dl>
 
     @using (Html.BeginForm()) {

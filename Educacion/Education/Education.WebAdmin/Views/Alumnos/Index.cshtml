@@ -37,6 +37,13 @@
         </td>
         
         <td>
+            <img src="@item.UrlImagen" alt="@item.NombreAlumno" style="width:64px; height:auto;"/>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Activo)
+        </td>
+
+        <td>
             @Html.ActionLink("Editar", "Editar", new { id=item.Id }) |
             @Html.ActionLink("Detalle", "Detalle", new { id=item.Id }) |
             @Html.ActionLink("Eliminar", "Eliminar", new { id=item.Id })

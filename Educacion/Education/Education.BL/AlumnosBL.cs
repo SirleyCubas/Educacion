@@ -39,6 +39,7 @@ namespace Education.BL
                 alumnoExistente.NombreAlumno = alumno.NombreAlumno;
                 alumnoExistente.CategoriaId = alumno.CategoriaId;
                 alumnoExistente.RTN = alumno.RTN;
+                alumnoExistente.UrlImagen = alumno.UrlImagen;
             }
      
             _contexto.SaveChanges();

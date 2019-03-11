@@ -31,16 +31,37 @@ namespace Education.WebAdmin.Controllers
             var Categorias = _categoriasBL.ObtenerCategorias();
 
             ViewBag.CategoriaId = new SelectList(Categorias, "Id", "Descripcion");
+            new SelectList(Categorias,"ID","Descripcion");
 
             return View(nuevoAlumno);
         }
 
 
         [HttpPost]
-        public ActionResult Crear(Alumno alumno)
+        public ActionResult Crear(Alumno alumno, HttpPostedFileBase imagen)
         {
-            _alumnosBL.GuardarAlumno(alumno);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                if (alumno.CategoriaId==0)
+                {
+                    ModelState.AddModelError("CategoriaId", "Seleccione una Categoria");
+                    return View(alumno);
+                }
+
+                if (imagen != null)
+                {
+                    alumno.UrlImagen = GuardarImagen(imagen);
+                }
+
+                _alumnosBL.GuardarAlumno(alumno);
+                return RedirectToAction("Index");
+            }
+            var Categorias = _categoriasBL.ObtenerCategorias();
+
+            ViewBag.CategoriaId = new SelectList(Categorias, "Id", "Descripcion");
+            new SelectList(Categorias, "ID", "Descripcion");
+
+            return View(alumno);
         }
 
         public ActionResult Editar(int id)
@@ -56,9 +77,22 @@ namespace Education.WebAdmin.Controllers
         [HttpPost]
         public ActionResult Editar(Alumno alumno)
         {
-            _alumnosBL.GuardarAlumno(alumno);
+            if (ModelState.IsValid)
+            {
+                if (alumno.CategoriaId == 0)
+                {
+                    ModelState.AddModelError("CategoriaId", "Seleccione una Categoria");
+                    return View(alumno);
+                }
+                _alumnosBL.GuardarAlumno(alumno);
+                return RedirectToAction("Index");
+            }
+            var Categorias = _categoriasBL.ObtenerCategorias();
 
-            return RedirectToAction("Index");
+            ViewBag.CategoriaId = new SelectList(Categorias, "Id", "Descripcion");
+            new SelectList(Categorias, "ID", "Descripcion");
+
+            return View(alumno);
         }
 
         public ActionResult Detalle(int id)
@@ -80,6 +114,13 @@ namespace Education.WebAdmin.Controllers
         {
             _alumnosBL.EliminarAlumno(alumno.Id);
             return RedirectToAction("Index");
+        }
+
+        private string GuardarImagen(HttpPostedFileBase imagen)
+        {
+            string path = Server.MapPath("~/Imagenes/" + imagen.FileName);
+            imagen.SaveAs(path);
+            return "/Imagenes/" + imagen.FileName;
         }
 
        
